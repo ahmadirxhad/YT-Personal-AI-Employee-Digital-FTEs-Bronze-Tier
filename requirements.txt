@@ -1,0 +1,22 @@
+# AI Employee Bronze Tier — Python Dependencies
+# Install with: pip install -r requirements.txt
+# Recommended: use uv (https://docs.astral.sh/uv/)
+#   uv pip install -r requirements.txt
+
+# Core
+python-dotenv>=1.0.0        # .env file loading
+
+# Gmail Watcher
+google-auth>=2.27.0
+google-auth-oauthlib>=1.2.0
+google-auth-httplib2>=0.2.0
+google-api-python-client>=2.118.0
+
+# Filesystem Watcher
+watchdog>=4.0.0             # Cross-platform filesystem monitoring
+
+# WhatsApp Watcher (Silver Tier — optional for Bronze)
+# playwright>=1.42.0        # Uncomment for WhatsApp automation
+
+# Utilities
+requests>=2.31.0

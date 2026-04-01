@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "skills": {
+    "browsing-with-playwright": {
+      "source": "bilalmk/todo_correct",
+      "sourceType": "github",
+      "computedHash": "f73daf75e38650c202e61f652a26578db157f8423e8bcf283bcd93b441641461"
+    },
+    "cron-scheduling": {
+      "source": "claude-dev-suite/claude-dev-suite",
+      "sourceType": "github",
+      "computedHash": "b53f74dc21d6d09e3f3dd83131f42cd813bd09c1dbd502febe3e9d55be027b62"
+    },
+    "file-watcher": {
+      "source": "winsorllc/upgraded-carnival",
+      "sourceType": "github",
+      "computedHash": "6a985c9454b45a783787f778601cdf53a8271fd5c0118ce83cf1ffad23943f76"
+    },
+    "find-skills": {
+      "source": "vercel-labs/skills",
+      "sourceType": "github",
+      "computedHash": "645b891da1edbae76ab79c7b088d4e73397464f8396edaf773c0e01971ce75d6"
+    },
+    "gws-gmail-watch": {
+      "source": "googleworkspace/cli",
+      "sourceType": "github",
+      "computedHash": "dfbf1ae21f6e80a2e0cc4569da7e46859df5520e77c8b03ba1d1ef5d590ddeef"
+    },
+    "skill-creator": {
+      "source": "anthropics/skills",
+      "sourceType": "github",
+      "computedHash": "57f470f512f45bdac598e302bc72fd62bf2b649fc7fad032efe97720149cde4d"
+    }
+  }
+}

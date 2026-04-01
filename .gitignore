@@ -1,0 +1,32 @@
+# Secrets — NEVER commit these
+.env
+credentials.json
+token.json
+*.pem
+*.key
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+dist/
+build/
+.uv/
+
+# Vault runtime files (logs are local, not committed)
+AI_Employee_Vault/Logs/*.json
+AI_Employee_Vault/Done/
+AI_Employee_Vault/Approved/
+AI_Employee_Vault/Rejected/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDEs
+.vscode/
+.idea/
+*.swp
