@@ -110,8 +110,10 @@ def get_pending_files() -> list[Path]:
 def mark_processed(file_path: Path):
     """Move a processed file to /Done."""
     dest = DONE / file_path.name
-    file_path.rename(dest)
-    logger.info(f"Moved to /Done: {file_path.name}")
+    if dest.exists():
+        dest.unlink()
+    file_path.replace(dest)
+    logger.info(f"Moved to /Done: {dest.name}")
 
 
 def trigger_claude(file_path: Path):
@@ -187,7 +189,9 @@ def process_approved_files():
         if not DRY_RUN:
             # Move to Done after execution
             dest = DONE / f"APPROVED_{approved_file.name}"
-            approved_file.rename(dest)
+            if dest.exists():
+                dest.unlink()
+            approved_file.replace(dest)
         else:
             logger.info(f"[DRY RUN] Would execute action from: {approved_file.name}")
 
