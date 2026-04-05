@@ -47,7 +47,7 @@ Open `.env` and set these values:
 | `DRY_RUN` | `true` to test safely, `false` for live operation |
 | `CHECK_INTERVAL` | How often the orchestrator polls (default: `30` seconds) |
 | `CLAUDE_CMD` | Usually just `claude` |
-| `DROP_FOLDER` | Folder you drag files into (default: `~/Desktop/AI_Drop`) |
+| `DROP_FOLDER` | Set to `./AI_Employee_Vault/Inbox` (drop files directly in Obsidian) |
 
 ### 1.3 Open the Vault in Obsidian
 
@@ -56,11 +56,7 @@ Open `.env` and set these values:
 3. Select the `AI_Employee_Vault/` folder
 4. You will see `Dashboard.md` — this is your live command center
 
-### 1.4 Create the Drop Folder (Filesystem Watcher)
-
-```bash
-mkdir -p ~/Desktop/AI_Drop
-```
+> The `Inbox/` folder already exists inside the vault — no need to create anything.
 
 ---
 
@@ -77,7 +73,7 @@ cd watchers
 python filesystem_watcher.py
 ```
 
-This watches `~/Desktop/AI_Drop`. When you drag a file there, the AI Employee wakes up.
+This watches `AI_Employee_Vault/Inbox/`. Drop files there directly inside Obsidian and the AI Employee wakes up.
 
 **Option B: Gmail Watcher (requires Google Cloud setup)**
 
@@ -113,7 +109,7 @@ Both processes run in the background. Leave both terminal windows open.
 
 ### Method A — Drop a file
 
-Drag any file (`.txt`, `.pdf`, `.docx`) into `~/Desktop/AI_Drop`.
+Drag any file (`.txt`, `.pdf`, `.docx`) into `AI_Employee_Vault/Inbox/` directly in Obsidian (or copy it there via file explorer).
 
 The filesystem watcher will:
 1. Detect the file
@@ -175,7 +171,7 @@ Open `AI_Employee_Vault/Dashboard.md` in Obsidian. It updates automatically show
 
 | Folder | Your role | Claude's role |
 |--------|-----------|---------------|
-| `Inbox/` | Can drop raw items here | Reads and classifies |
+| `Inbox/` | **Drop files here** — this is the drop folder | Reads and classifies |
 | `Needs_Action/` | Create task cards manually | Processes every `.md` file found |
 | `Plans/` | Read to see Claude's thinking | Writes plans here |
 | `Pending_Approval/` | **Move to Approved or Rejected** | Writes approval requests |
@@ -224,7 +220,7 @@ pm2 save && pm2 startup
 4. Go to **APIs & Services → Credentials → Create Credentials → OAuth 2.0 Client ID**
 5. Application type: **Desktop App**
 6. Download the JSON file and rename it `credentials.json`
-7. Move `credentials.json` to the `watchers/` folder:
+7. Move `credentials.json` into the `watchers/` folder (scripts run from there):
 
 ```bash
 mv ~/Downloads/credentials.json watchers/credentials.json
@@ -314,7 +310,7 @@ You do not call these directly — the orchestrator and Claude use them automati
 
 **To give Claude a new task:**
 
-- Drop a file in `~/Desktop/AI_Drop`, or
+- Drop a file into `AI_Employee_Vault/Inbox/` in Obsidian, or
 - Create a `.md` file in `Needs_Action/` manually
 
 That's it. Claude does the rest.

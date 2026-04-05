@@ -5,7 +5,7 @@ updated_by: AI Employee v0.1
 
 # AI Employee Dashboard
 
-> Auto-updated by Claude Code. Last refresh: {{TIMESTAMP}}
+> Auto-updated by Claude Code. Last refresh: 2026-04-04 16:31:57
 
 ---
 
@@ -24,7 +24,7 @@ updated_by: AI Employee v0.1
 
 | Folder | Count |
 |--------|-------|
-| /Inbox | 0 |
+| /Inbox | 1 |
 | /Needs_Action | 0 |
 | /Pending_Approval | 0 |
 | /Done (today) | 0 |

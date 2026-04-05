@@ -65,8 +65,9 @@ def log_event(action_type: str, details: dict):
     if log_file.exists():
         try:
             existing = json.loads(log_file.read_text(encoding="utf-8"))
-        except json.JSONDecodeError:
-            pass
+        except json.JSONDecodeError as e:
+            logger.error(f"Corrupt log file {log_file.name}, starting fresh: {e}")
+            existing = []
     existing.append(entry)
     log_file.write_text(json.dumps(existing, indent=2), encoding="utf-8")
 
@@ -200,6 +201,13 @@ def main():
     logger.info(f"DRY RUN: {DRY_RUN}")
     logger.info(f"Check interval: {CHECK_INTERVAL}s")
     logger.info("=" * 60)
+
+    # Ensure all required vault folders exist
+    for folder in [NEEDS_ACTION, APPROVED, DONE, LOGS,
+                   VAULT_PATH / "Plans",
+                   VAULT_PATH / "Pending_Approval",
+                   VAULT_PATH / "Rejected"]:
+        folder.mkdir(parents=True, exist_ok=True)
 
     if DRY_RUN:
         logger.warning("DRY_RUN=true — no external actions will be taken.")

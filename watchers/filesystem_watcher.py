@@ -11,6 +11,7 @@ Setup:
   3. Run: python filesystem_watcher.py
 """
 import os
+import time
 import shutil
 from pathlib import Path
 from datetime import datetime
@@ -34,6 +35,7 @@ class DropFolderHandler(FileSystemEventHandler):
         self.needs_action = needs_action
         self.logs_dir = logs_dir
         self.logger = logger
+        self._seen_md: set = set()  # track .md files already processed
 
     def on_created(self, event):
         if event.is_directory:
@@ -43,9 +45,41 @@ class DropFolderHandler(FileSystemEventHandler):
             return
 
         # Small delay to ensure file is fully written
-        import time
         time.sleep(0.5)
 
+        if source.suffix.lower() == ".md":
+            self._handle_markdown(source)
+        else:
+            self._handle_binary(source)
+
+    def on_modified(self, event):
+        """Catch Obsidian's two-step write (create empty → write content) for .md files."""
+        if event.is_directory:
+            return
+        source = Path(event.src_path)
+        if source.suffix.lower() != ".md":
+            return
+        if source.name in self._seen_md:
+            return
+        if source.stat().st_size == 0:
+            return
+        time.sleep(0.5)
+        self._handle_markdown(source)
+
+    def _handle_markdown(self, source: Path):
+        """Move .md file directly to /Needs_Action — it is already a task card."""
+        dest = self.needs_action / source.name
+        if dest.exists():
+            return
+        try:
+            shutil.copy2(source, dest)
+            self._seen_md.add(source.name)
+            self.logger.info(f"Picked up task card: {source.name}")
+        except Exception as e:
+            self.logger.error(f"Failed to process {source.name}: {e}")
+
+    def _handle_binary(self, source: Path):
+        """Copy non-.md file and create a companion metadata task card."""
         try:
             dest = self.needs_action / f"FILE_{source.name}"
             shutil.copy2(source, dest)
@@ -115,7 +149,6 @@ class FilesystemWatcher(BaseWatcher):
         self.logger.info("Filesystem watcher running. Drop files to trigger AI Employee.")
 
         try:
-            import time
             while True:
                 time.sleep(1)
         except KeyboardInterrupt:

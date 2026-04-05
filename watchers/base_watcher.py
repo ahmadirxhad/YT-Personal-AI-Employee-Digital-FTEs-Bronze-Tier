@@ -58,7 +58,8 @@ class BaseWatcher(ABC):
         if log_file.exists():
             try:
                 existing = json.loads(log_file.read_text(encoding="utf-8"))
-            except json.JSONDecodeError:
+            except json.JSONDecodeError as e:
+                self.logger.error(f"Corrupt log file {log_file.name}, starting fresh: {e}")
                 existing = []
         existing.append(entry)
         log_file.write_text(json.dumps(existing, indent=2), encoding="utf-8")
